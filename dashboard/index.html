@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuanta Research & BCTC Dashboard - VN Quant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Topbar / Header Navigation -->
+        <header class="top-nav">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">Vietnam Stock Market <span class="logo-highlight">Research</span> & Quant Lab</span>
+            </div>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="ticker-search"
+                        placeholder="Tìm kiếm trong 1,525 mã (HOSE, HNX, UPCOM)... VD: ACB, HPG, VNZ..."
+                        autocomplete="off">
+                </div>
+                <div id="search-results" class="search-results hidden"></div>
+            </div>
+
+            <div class="nav-actions">
+                <button class="icon-btn theme-toggle" title="Chuyển đổi Giao diện Tối/Sáng">🌙</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state hidden">
+                <div class="empty-icon">📊</div>
+                <h2>Khám phá Dữ liệu Tài chính & Yuanta Rating</h2>
+                <p>Nhập mã cổ phiếu vào ô tìm kiếm phía trên để bắt đầu phân tích doanh nghiệp.</p>
+            </div>
+
+            <!-- Ticker Data View -->
+            <div id="data-view" class="data-view">
+
+                <!-- Ticker Header Info Panel (Yuanta Inspired) -->
+                <div class="ticker-header glass-panel">
+                    <div class="ticker-header-main">
+                        <!-- Left Ticker Info & Price -->
+                        <div class="ticker-info-left">
+                            <div class="ticker-title">
+                                <h1 id="ticker-symbol">ACB</h1>
+                                <span id="ticker-exchange" class="badge">HSX</span>
+                            </div>
+                            <div id="ticker-company-name" class="ticker-name">Ngân hàng Thương mại Cổ phần Á Châu | HOSE
+                            </div>
+                            <div class="ticker-actions"
+                                style="display: flex; gap: 0.75rem; margin-top: 0.5rem; margin-bottom: 0.75rem;">
+                                <button class="badge-btn">📊 Phân tích kỹ thuật</button>
+                                <button id="btn-rating-guide" class="badge-btn">❓ Stock rating là gì?</button>
+                            </div>
+                            <div class="ticker-price-box">
+                                <span id="ticker-current-price" class="current-price">22,500</span>
+                                <span id="ticker-price-change" class="price-change price-ref">+ 0 (0%)</span>
+                            </div>
+                        </div>
+
+                        <!-- Center Scores & Volume Stats -->
+                        <div class="ticker-scores-center">
+                            <div class="score-card">
+                                <span class="score-title">Stock rating</span>
+                                <span id="val-stock-rating" class="score-val text-success">84</span>
+                            </div>
+                            <div class="score-card">
+                                <span class="score-title">Điểm cơ bản</span>
+                                <span id="val-basic-point" class="score-val text-success">81</span>
+                            </div>
+                            <div class="score-card">
+                                <span class="score-title">Sức&nbsp;mạnh<br>giá</span>
+                                <span id="val-price-strength" class="score-val text-success">88</span>
+                            </div>
+                            <div class="score-card"
+                                style="border-left: 1px solid var(--border-color); padding-left: 1.5rem;">
+                                <span class="score-title">GTGD</span>
+                                <span id="val-gtgd" class="score-val"
+                                    style="font-size: 1.15rem; color: var(--text-primary);">302,056 <span
+                                        style="font-size: 0.75rem; font-weight: 500; color: var(--text-secondary);">triệu
+                                        đồng</span></span>
+                            </div>
+                            <div class="score-card">
+                                <span class="score-title">KLGD</span>
+                                <span id="val-klgd" class="score-val"
+                                    style="font-size: 1.15rem; color: var(--text-primary);">13,447,000 <span
+                                        style="font-size: 0.75rem; font-weight: 500; color: var(--text-secondary);">CP</span></span>
+                            </div>
+                        </div>
+
+                        <!-- Right Recommendation Box -->
+                        <div class="ticker-recomm-right">
+                            <div class="recomm-header">
+                                <span>Ngày khuyến nghị</span>
+                                <span id="val-recomm-date">04/06/2026 (T+37)</span>
+                            </div>
+                            <div class="recomm-body">
+                                <div class="trend-box">
+                                    <span class="recomm-label">Xu hướng</span>
+                                    <span id="val-trend" class="recomm-value text-success">↗ Tăng</span>
+                                </div>
+                                <div class="action-box">
+                                    <span class="recomm-label">Khuyến nghị</span>
+                                    <span id="val-recommend" class="recomm-value" style="color: #f59e0b;">Nắm giữ</span>
+                                </div>
+                                <div class="weight-box">
+                                    <span class="recomm-label">Tỷ trọng tối ưu</span>
+                                    <span id="val-opt-weight" class="recomm-value">20.55%</span>
+                                </div>
+                            </div>
+                            <div class="recomm-footer">
+                                <div class="target-box">
+                                    <span class="recomm-label">Giá mua 🔵</span>
+                                    <span id="val-buy-price" class="text-primary">22,419</span>
+                                </div>
+                                <div class="target-box">
+                                    <span class="recomm-label">Mục tiêu</span>
+                                    <span id="val-target-price">25,724</span>
+                                </div>
+                                <div class="target-box">
+                                    <span class="recomm-label">Cắt lỗ 🔴</span>
+                                    <span id="val-stop-loss">21,034</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <div class="tabs-container">
+                    <ul class="tabs">
+                        <li class="tab-item active" data-tab="overview">Tổng quan</li>
+                        <li class="tab-item" data-tab="trading">Dữ liệu giao dịch</li>
+                        <li class="tab-item" data-tab="peers">Tương quan trong ngành</li>
+                        <li class="tab-item" data-tab="bctc">Báo cáo tài chính</li>
+                        <li class="tab-item" data-tab="news">Tin tức & sự kiện</li>
+                    </ul>
+                </div>
+
+                <!-- TAB 1: OVERVIEW (Tổng quan - Yuanta Replica) -->
+                <div id="tab-overview" class="overview-section">
+
+                    <!-- Card 1: Về Doanh nghiệp & 12 KPIs -->
+                    <div class="glass-panel">
+                        <h2 id="card-about-title" class="profile-card-title">📌 Về ACB</h2>
+                        <div id="profile-overview-text" class="company-overview-text">
+                            Đang tải thông tin doanh nghiệp...
+                        </div>
+                        <div id="profile-kpis" class="kpi-grid">
+                            <!-- Populated via Javascript -->
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Giới thiệu chung & Cơ cấu cổ đông -->
+                    <div class="dual-grid">
+                        <!-- General Info -->
+                        <div class="glass-panel" style="margin-bottom: 0;">
+                            <h2 class="profile-card-title">🏢 Giới thiệu chung</h2>
+                            <table class="info-table">
+                                <tbody id="table-general-info">
+                                    <tr>
+                                        <td>Tên công ty</td>
+                                        <td id="info-comp-name">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngày thành lập</td>
+                                        <td id="info-est-date">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ngành</td>
+                                        <td id="info-industry">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Người đại diện theo pháp luật</td>
+                                        <td id="info-rep-name">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Chức vụ của Người đại diện</td>
+                                        <td id="info-rep-pos">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khách hàng & Liên kết</td>
+                                        <td id="info-shares-count">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Shareholder Structure -->
+                        <div class="glass-panel" style="margin-bottom: 0;">
+                            <h2 class="profile-card-title">🔴 Cơ cấu cổ đông</h2>
+                            <div id="shareholder-section" class="shareholder-wrapper">
+                                <!-- Donut Chart & Legend populated via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Danh sách các mã cùng ngành -->
+                    <div class="glass-panel" id="section-peers" style="margin-top: 1rem;">
+                        <div class="peers-header-actions">
+                            <h2 class="profile-card-title" style="margin-bottom: 0;">🤝 Danh sách các mã cùng ngành</h2>
+                            <div class="industry-pe-badge">P/E ngành: <span id="val-industry-pe"
+                                    style="color: var(--primary);">0.00</span></div>
+                        </div>
+                        <div class="table-container">
+                            <table class="peers-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã CK</th>
+                                        <th>Giá (VNĐ)</th>
+                                        <th>Thay đổi giá</th>
+                                        <th>Stock rating</th>
+                                        <th>P/E</th>
+                                        <th>P/B</th>
+                                        <th>EPS</th>
+                                        <th>ROA (%)</th>
+                                        <th>ROE (%)</th>
+                                        <th>Beta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="peers-tbody">
+                                    <!-- Populated via Javascript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tab: Dữ liệu giao dịch -->
+            <div id="tab-trading" class="tab-content hidden" style="margin-top: 1.5rem;">
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    
+                    <div class="trading-sub-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                        <button class="trading-sub-tab active" data-target="trading-price-content" style="padding: 0.5rem 1rem; border-radius: 4px; border: none; background: #8b5cf6; color: white; cursor: pointer; font-weight: 500; font-size: 0.9rem;">Lịch sử giá</button>
+                        <button class="trading-sub-tab" data-target="trading-foreign-content" style="padding: 0.5rem 1rem; border-radius: 4px; border: 1px solid #e5e7eb; background: transparent; color: #4b5563; cursor: pointer; font-weight: 500; font-size: 0.9rem;">Giao dịch nước ngoài</button>
+                    </div>
+
+                    <div class="trading-controls" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-end;">
+                        <div class="control-group">
+                            <label for="trading-from-date" style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Từ ngày</label>
+                            <input type="date" id="trading-from-date" class="date-input" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text-primary);">
+                        </div>
+                        <div class="control-group">
+                            <label for="trading-to-date" style="display: block; font-size: 0.85rem; margin-bottom: 0.3rem;">Đến ngày</label>
+                            <input type="date" id="trading-to-date" class="date-input" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text-primary);">
+                        </div>
+                    </div>
+
+                    <div id="trading-price-content" class="trading-content active">
+                        <div class="table-container" style="max-height: 500px; overflow-y: auto; overflow-x: auto;">
+                            <table class="peers-table trading-table" style="white-space: nowrap;">
+                                <thead style="position: sticky; top: 0; z-index: 10;">
+                                    <tr>
+                                        <th>Ngày</th>
+                                        <th>Thay đổi</th>
+                                        <th style="text-align: right;">Đóng cửa</th>
+                                        <th style="text-align: right;">Mở cửa</th>
+                                        <th style="text-align: right;">Cao nhất</th>
+                                        <th style="text-align: right;">Thấp nhất</th>
+                                        <th style="text-align: right;">Trung bình</th>
+                                        <th style="text-align: right;">KLGD</th>
+                                        <th style="text-align: right;">GTGD (tr đ)</th>
+                                        <th style="text-align: right;">KL NN mua</th>
+                                        <th style="text-align: right;">KL NN bán</th>
+                                        <th style="text-align: right;">KLGD thỏa thuận</th>
+                                        <th style="text-align: right;">GTGD TT (tr đ)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trading-tbody">
+                                    <tr><td colspan="13" style="text-align:center; padding: 20px;">Đang tải dữ liệu...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="trading-foreign-content" class="trading-content hidden">
+                        <div class="table-container" style="max-height: 500px; overflow-y: auto; overflow-x: auto;">
+                            <table class="peers-table trading-table" style="white-space: nowrap;">
+                                <thead style="position: sticky; top: 0; z-index: 10;">
+                                    <tr>
+                                        <th>Ngày</th>
+                                        <th style="text-align: right;">Room NN còn lại</th>
+                                        <th style="text-align: right;">KL mua</th>
+                                        <th style="text-align: right;">GT mua</th>
+                                        <th style="text-align: right;">KL bán</th>
+                                        <th style="text-align: right;">GT bán</th>
+                                        <th style="text-align: right;">KL ròng</th>
+                                        <th style="text-align: right;">GT ròng</th>
+                                        <th style="text-align: right;">Tỷ lệ GTGD khối ngoại</th>
+                                        <th style="text-align: right;">Tỷ lệ sở hữu khối ngoại</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trading-foreign-tbody">
+                                    <tr><td colspan="10" style="text-align:center; padding: 20px;">Đang tải dữ liệu...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+                <!-- TAB PEERS: TƯƠNG QUAN TRONG NGÀNH -->
+                <div id="tab-peers" class="tab-content hidden">
+
+
+                    <div class="glass-panel">
+                        <h2 class="profile-card-title">📊 Biểu đồ Tương quan</h2>
+                        <div class="correlate-grid">
+                            <div class="correlate-card">
+                                <h4>Chỉ tiêu đánh giá</h4>
+                                <div id="chart-assessment" class="echarts-container"></div>
+                            </div>
+                            <div class="correlate-card">
+                                <h4>Khả năng hoạt động</h4>
+                                <div id="chart-performance" class="echarts-container"></div>
+                            </div>
+                            <div class="correlate-card">
+                                <h4>Khả năng quản lý</h4>
+                                <div id="chart-management" class="echarts-container"></div>
+                            </div>
+                            <div class="correlate-card">
+                                <h4>Tốc độ tăng trưởng</h4>
+                                <div id="chart-growth" class="echarts-container"></div>
+                            </div>
+                            <div class="correlate-card">
+                                <h4>Khả năng sinh lợi</h4>
+                                <div id="chart-liquidity" class="echarts-container"></div>
+                            </div>
+                            <div class="correlate-card">
+                                <h4>Khả năng thanh khoản</h4>
+                                <div id="chart-profitability" class="echarts-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: BÁO CÁO TÀI CHÍNH -->
+                <div id="tab-bctc" class="tab-content glass-panel hidden">
+                    <div class="sub-tabs-container"
+                        style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                        <button class="sub-tab-btn active" data-subtab="cstc"
+                            style="padding: 8px 16px; border: none; border-radius: 6px; background: #8b5cf6; color: white; cursor: pointer; font-weight: 600;">Chỉ
+                            số tài chính</button>
+                        <button class="sub-tab-btn" data-subtab="bctc"
+                            style="padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-primary); cursor: pointer; font-weight: 500;">Báo
+                            cáo tài chính</button>
+                        <button class="sub-tab-btn" data-subtab="chart"
+                            style="padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-primary); cursor: pointer; font-weight: 500;">Biểu
+                            đồ tài chính</button>
+                    </div>
+
+                    <div class="bctc-controls">
+                        <div class="control-group">
+                            <label>Loại báo cáo</label>
+                            <select id="report-type">
+                                <option value="BCTT">BCTC Tóm Tắt</option>
+                                <option value="BCTC">BCTC Đầy đủ</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Kỳ bắt đầu</label>
+                            <div class="period-selection" style="display: flex; align-items: center; gap: 10px;">
+                                <div class="period-toggles">
+                                    <button class="period-btn">Q1</button>
+                                    <button class="period-btn active">Q2</button>
+                                    <button class="period-btn">Q3</button>
+                                    <button class="period-btn">Q4</button>
+                                    <button class="period-btn">Năm</button>
+                                </div>
+                                <span>Năm</span>
+                                <select id="year-select">
+                                    <!-- populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label>Số kỳ hiển thị</label>
+                            <select id="period-count">
+                                <option value="4">4 kỳ (1 năm)</option>
+                                <option value="5" selected>5 kỳ (YoY)</option>
+                                <option value="8">8 kỳ (2 năm)</option>
+                                <option value="20">20 kỳ (5 năm)</option>
+                                <option value="40">40 kỳ (10 năm - Từ 2016)</option>
+                                <option value="all">Tất cả lịch sử (2016 - Nay)</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Đơn vị</label>
+                            <select id="unit-scale">
+                                <option value="1" selected>Triệu đồng</option>
+                                <option value="1000">Tỷ đồng</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="chart-controls"
+                        style="display: none; align-items: center; justify-content: flex-end; padding: 1rem 0; border-bottom: 1px solid var(--border-color); gap: 10px;">
+                        <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500;">Hiển thị
+                            theo:</span>
+                        <div class="period-toggles" id="chart-period-toggles">
+                            <button class="period-btn active" data-val="2">Quý</button>
+                            <button class="period-btn" data-val="1">Năm</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="bctc-table" class="financial-table">
+                            <thead id="table-head">
+                                <!-- Dynamic headers and meta rows -->
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: OTHER PLACEHOLDERS -->
+                <div id="tab-placeholder" class="tab-content glass-panel hidden"
+                    style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                    <h3 id="placeholder-title" style="font-size: 1.4rem; color: var(--primary); margin-bottom: 0.5rem;">
+                        Dữ Liệu Đang Đồng Bộ</h3>
+                    <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Các thông số chi tiết của
+                        phần này đang được cập nhật tự động từ hệ thống Yuanta Real-time Engine. Vui lòng quay lại tab
+                        Tổng quan hoặc Báo cáo tài chính.</p>
+                </div>
+
+                <!-- EVENTS TAB -->
+                <div id="tab-news" class="tab-content" style="display: none;">
+                    <table class="financial-table">
+                        <thead>
+                            <tr>
+                                <th>Tin tức & Sự kiện sắp tới</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-body">
+                            <!-- Events content will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Rating Guide Modal -->
+    <div id="rating-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title">Stock Rating</h2>
+                    <p class="modal-subtitle">Giải thích thuật ngữ</p>
+                </div>
+                <button id="close-rating-modal" class="modal-close">&times;</button>
+            </div>
+
+            <div class="modal-tabs">
+                <div class="modal-tab active" data-target="guide-stock-rating">Stock Rating</div>
+                <div class="modal-tab" data-target="guide-basic-point">Điểm cơ bản</div>
+                <div class="modal-tab" data-target="guide-price-strength">Sức mạnh giá</div>
+                <div class="modal-tab" data-target="guide-recommend">Khuyến nghị</div>
+            </div>
+
+            <div class="modal-body">
+                <!-- Tab: Stock Rating -->
+                <div id="guide-stock-rating" class="guide-section active">
+                    <h3 class="guide-heading">Stock rating là gì?</h3>
+                    <p class="guide-text">Stock Rating là chỉ số đánh giá toàn diện cổ phiếu, được đội ngũ phân tích
+                        Yuanta Việt Nam phát triển độc quyền.</p>
+                    <div class="formula-box">Stock Rating = (Điểm cơ bản + Sức mạnh giá)/2</div>
+
+                    <h3 class="guide-heading">Gợi ý đầu tư</h3>
+                    <ul class="guide-list">
+                        <li><strong>Stock rating > 80:</strong> An toàn để đầu tư</li>
+                        <li><strong>Điểm cơ bản > 80 và Sức mạnh giá > 60:</strong> Lựa chọn tối ưu</li>
+                        <li><strong>Sức mạnh giá > 98:</strong> Cảnh báo - Không nên mua mới, ưu tiên nắm giữ đến khi có
+                            tín hiệu bán/chốt lời một phần</li>
+                    </ul>
+
+                    <h3 class="guide-heading">Phân loại cổ phiếu theo Stock rating</h3>
+                    <div class="guide-box box-green">
+                        <h4>Stock Rating &ge; 80: Cổ phiếu nên chọn</h4>
+                        <ul class="guide-check-list">
+                            <li>Tiềm năng tăng trưởng tốt</li>
+                            <li>Dòng tiền tập trung mạnh</li>
+                            <li>Rủi ro thấp, phù hợp đầu tư</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-yellow">
+                        <h4>60 &le; Stock rating &lt; 80: Cổ phiếu có tiềm năng</h4>
+                        <ul class="guide-warn-list">
+                            <li>Cần xem xét thêm yếu tố khác</li>
+                            <li>Đầu tư thận trọng</li>
+                            <li>Theo dõi sát diễn biến của cổ phiếu</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-red">
+                        <h4>Stock rating &lt; 60: Cổ phiếu rủi ro cao</h4>
+                        <ul class="guide-cross-list">
+                            <li>Tiềm năng tăng trưởng thấp</li>
+                            <li>Rủi ro cao, nên tránh</li>
+                            <li>Chỉ phù hợp nhà đầu tư có kinh nghiệm</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab: Điểm cơ bản -->
+                <div id="guide-basic-point" class="guide-section hidden">
+                    <h3 class="guide-heading">Điểm cơ bản là gì?</h3>
+                    <p class="guide-text">Điểm cơ bản là chỉ số dùng để đánh giá tình hình kinh doanh của doanh nghiệp
+                    </p>
+
+                    <h3 class="guide-heading">Các yếu tố đánh giá</h3>
+                    <ul class="guide-feature-list">
+                        <li><span>📈</span> <strong>Lợi nhuận:</strong> Khả năng sinh lời của doanh nghiệp</li>
+                        <li><span>📊</span> <strong>Doanh thu:</strong> Quy mô về tăng trưởng kinh doanh</li>
+                        <li><span>📑</span> <strong>Chỉ số tài chính:</strong> ROE, ROA, P/E, P/B</li>
+                    </ul>
+
+                    <h3 class="guide-heading">Gợi ý đầu tư</h3>
+                    <ul class="guide-list">
+                        <li>Ưu tiên cổ phiếu có điểm cơ bản > 80</li>
+                        <li>Kết hợp với sức mạnh giá để quyết định</li>
+                        <li>Theo dõi xu hướng thay đổi theo quý</li>
+                    </ul>
+
+                    <h3 class="guide-heading">Ý nghĩa điểm số</h3>
+                    <div class="guide-box box-green">
+                        <h4>Điểm cơ bản &ge; 80</h4>
+                        <ul class="guide-check-list">
+                            <li>Doanh nghiệp có sức khỏe tài chính vững chắc</li>
+                            <li>Tiềm năng tăng trưởng kinh doanh ổn định</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-yellow">
+                        <h4>60 &le; Điểm cơ bản &lt; 80</h4>
+                        <ul class="guide-warn-list">
+                            <li>Doanh nghiệp có sức khỏe tài chính ở mức trung bình</li>
+                            <li>Cần tiếp tục theo dõi để đánh giá mức độ cải thiện của doanh nghiệp trong thời gian tới
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-red">
+                        <h4>Điểm cơ bản &lt; 60</h4>
+                        <ul class="guide-cross-list">
+                            <li>Doanh nghiệp có sức khỏe tài chính ở mức yếu</li>
+                            <li>Cẩn thận trọng khi xem xét đầu tư</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab: Sức mạnh giá -->
+                <div id="guide-price-strength" class="guide-section hidden">
+                    <h3 class="guide-heading">Sức mạnh giá là gì?</h3>
+                    <p class="guide-text">Sức mạnh giá là chỉ số dùng để đánh giá sự tập trung của dòng tiền vào cổ
+                        phiếu</p>
+
+                    <h3 class="guide-heading">Các yếu tố đánh giá</h3>
+                    <ul class="guide-feature-list">
+                        <li><span>📉</span> <strong>Biến động giá:</strong> Xu hướng tăng/giảm</li>
+                        <li><span>⚖️</span> <strong>Khối lượng giao dịch:</strong> Mức độ quan tâm</li>
+                        <li><span>📈</span> <strong>Momentum:</strong> Đà tăng/giảm giá</li>
+                        <li><span>🚥</span> <strong>Tín hiệu kỹ thuật:</strong> Các chỉ báo kỹ thuật</li>
+                    </ul>
+
+                    <h3 class="guide-heading">Gợi ý đầu tư</h3>
+                    <ul class="guide-list">
+                        <li>Tìm cổ phiếu có sức mạnh giá 60 - 98</li>
+                        <li>Kết hợp với điểm cơ bản để đưa ra lựa chọn đầu tư tối ưu</li>
+                    </ul>
+
+                    <h3 class="guide-heading">Ý nghĩa điểm số</h3>
+                    <div class="guide-box box-green">
+                        <h4>Sức mạnh giá &ge; 80</h4>
+                        <ul class="guide-check-list">
+                            <li>Có xu hướng tăng giá trong ngắn hạn</li>
+                            <li>Cổ phiếu thu hút sự quan tâm của thị trường với thanh khoản tốt</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-yellow">
+                        <h4>60 &le; Sức mạnh giá &lt; 80</h4>
+                        <ul class="guide-warn-list">
+                            <li>Có xu hướng đi ngang trong ngắn hạn</li>
+                            <li>Cần tiếp tục theo dõi thêm tín hiệu để đánh giá khả năng đảo chiều xu hướng</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-red">
+                        <h4>Sức mạnh giá &lt; 60</h4>
+                        <ul class="guide-cross-list">
+                            <li>Có xu hướng giảm giá trong ngắn hạn</li>
+                            <li>Cẩn thận trọng khi xem xét đầu tư</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab: Khuyến nghị -->
+                <div id="guide-recommend" class="guide-section hidden">
+                    <h3 class="guide-heading">Ý nghĩa điểm số</h3>
+
+                    <div class="guide-box box-green">
+                        <h4>Mua</h4>
+                        <ul class="guide-dot-list green-dots">
+                            <li>Cổ phiếu có điểm Stock Rating cao (&ge; 80) và có xu hướng tăng giá</li>
+                            <li>Hành động: Mua mới trong vùng giá khuyến nghị, lưu ý điểm cắt lỗ</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-red">
+                        <h4>Bán</h4>
+                        <ul class="guide-dot-list red-dots">
+                            <li>Cổ phiếu có tín hiệu suy yếu, cần thoát vị thế để bảo toàn lợi nhuận hoặc cắt lỗ</li>
+                            <li>Hành động: Bán toàn bộ hoặc một phần vị thế đang nắm giữ</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-yellow">
+                        <h4>Nắm giữ</h4>
+                        <ul class="guide-dot-list yellow-dots">
+                            <li>Xu hướng tăng của cổ phiếu vẫn còn nhưng cần thêm tín hiệu xác nhận để gia tăng vị thế
+                            </li>
+                            <li>Hành động: Tiếp tục nắm giữ và không mua mới</li>
+                        </ul>
+                    </div>
+                    <div class="guide-box box-blue">
+                        <h4>Quan sát</h4>
+                        <ul class="guide-dot-list blue-dots">
+                            <li>Cổ phiếu chưa có tín hiệu giao dịch rõ ràng, cần theo dõi thêm diễn biến thị trường</li>
+                            <li>Hành động: Đưa cổ phiếu vào danh sách theo dõi và chờ đợi điểm mua phù hợp</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script loading: static datasets first, then interactive app logic -->
+    <script src="js/universe_data.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/profile_data.js"></script>
+    <script src="js/correlate_data.js"></script>
+    <script src="js/cstc_data.js"></script>
+    <script src="js/chart_data.js"></script>
+    <script src="js/events_data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

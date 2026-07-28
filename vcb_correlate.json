@@ -1,0 +1,262 @@
+{
+  "ASSESSMENT_CRITERIAL": {
+    "success": true,
+    "error": false,
+    "data": {
+      "Title": {
+        "Value1": "ACB",
+        "Value2": "Ngân hàng"
+      },
+      "Data": [
+        {
+          "Name": "P/E (TTM)",
+          "Value1": 7.42,
+          "Value2": 8.48
+        },
+        {
+          "Name": "P/B",
+          "Value1": 1.32,
+          "Value2": 1.39
+        },
+        {
+          "Name": "P/S",
+          "Value1": 0,
+          "Value2": 1.71
+        },
+        {
+          "Name": "EV/EBITDA",
+          "Value1": 0,
+          "Value2": 0
+        }
+      ],
+      "ICBLevel": 2,
+      "ChartType": "ASSESSMENT_CRITERIAL"
+    }
+  },
+  "MANAGEMENT_ABILITY": {
+    "success": true,
+    "error": false,
+    "data": {
+      "Title": {
+        "Value1": "ACB",
+        "Value2": "Ngân hàng"
+      },
+      "Data": [
+        {
+          "Name": "ROE (TTM)",
+          "Value1": 16.33,
+          "Value2": 16.94
+        },
+        {
+          "Name": "ROA (TTM)",
+          "Value1": 1.54,
+          "Value2": 1.44
+        },
+        {
+          "Name": "ROCE %",
+          "Value1": 0,
+          "Value2": 0
+        }
+      ],
+      "ICBLevel": 2,
+      "ChartType": "MANAGEMENT_ABILITY"
+    }
+  },
+  "PERFORMANCE": {
+    "success": true,
+    "error": false,
+    "data": {
+      "Title": {
+        "Value1": "ACB",
+        "Value2": "Ngân hàng"
+      },
+      "Data": [
+        {
+          "Name": "Vốn chủ sở hữu",
+          "Value1": 0,
+          "Value2": 0.83
+        },
+        {
+          "Name": "Tổng tài sản",
+          "Value1": 0,
+          "Value2": 0.07
+        },
+        {
+          "Name": "Khoản phải trả",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Hàng tồn kho",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Khoản phải thu",
+          "Value1": 0,
+          "Value2": 0
+        }
+      ],
+      "ICBLevel": 2,
+      "ChartType": "PERFORMANCE"
+    }
+  },
+  "GROWTH_RATE": {
+    "success": true,
+    "error": false,
+    "data": {
+      "Title": {
+        "Value1": "ACB",
+        "Value2": "Ngân hàng"
+      },
+      "Data": [
+        {
+          "Name": "Doanh thu thuần",
+          "Value1": 0,
+          "Value2": 29.82
+        },
+        {
+          "Name": "Lãi gộp",
+          "Value1": 0,
+          "Value2": 19.07
+        },
+        {
+          "Name": "Lãi trước thuế",
+          "Value1": -11.92,
+          "Value2": 14.36
+        },
+        {
+          "Name": "Lãi thuần",
+          "Value1": -12.06,
+          "Value2": -1.56
+        },
+        {
+          "Name": "Tổng tài sản",
+          "Value1": 3.58,
+          "Value2": 22.54
+        },
+        {
+          "Name": "Vốn chủ sở hữu",
+          "Value1": 13.88,
+          "Value2": 19
+        },
+        {
+          "Name": "Vốn điều lệ",
+          "Value1": 0,
+          "Value2": 20.16
+        }
+      ],
+      "ICBLevel": 2,
+      "ChartType": "GROWTH_RATE"
+    }
+  },
+  "LIQUIDITY": {
+    "success": true,
+    "error": false,
+    "data": {
+      "Title": {
+        "Value1": "ACB",
+        "Value2": "Ngân hàng"
+      },
+      "Data": [
+        {
+          "Name": "Tỷ suất lãi hoạt động KD",
+          "Value1": 68.06,
+          "Value2": 0
+        },
+        {
+          "Name": "Tỷ suất lợi nhuận gộp %",
+          "Value1": 0,
+          "Value2": 45.9
+        },
+        {
+          "Name": "Tỷ suất EBITDA",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tỷ suất EBIT%",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tỷ suất lợi nhuận trước thuế %",
+          "Value1": 26.52,
+          "Value2": 25.58
+        },
+        {
+          "Name": "Tỷ suất lợi nhuận thuần %",
+          "Value1": 0,
+          "Value2": 37.75
+        }
+      ],
+      "ICBLevel": 2,
+      "ChartType": "LIQUIDITY"
+    }
+  },
+  "PROFITABILITY": {
+    "success": true,
+    "error": false,
+    "data": {
+      "Title": {
+        "Value1": "ACB",
+        "Value2": "Ngân hàng"
+      },
+      "Data": [
+        {
+          "Name": "Tỷ suất thanh toán tiền mặt",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tỷ suất thanh toán nhanh",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tỷ suất thanh toán hiện thời",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tổng vốn vay/Vốn CSH",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tổng vốn vay/Tổng tài sản",
+          "Value1": 0,
+          "Value2": 0
+        },
+        {
+          "Name": "Tổng công nợ/Vốn CSH",
+          "Value1": 0,
+          "Value2": 10.8
+        },
+        {
+          "Name": "Tổng công nợ/Tổng tài sản",
+          "Value1": 0,
+          "Value2": 0.92
+        }
+      ],
+      "ICBLevel": 2,
+      "ChartType": "PROFITABILITY"
+    }
+  },
+  "ASSET_QUALITY": {
+    "success": false,
+    "error": {
+      "errorCode": 404,
+      "message": "Data not found"
+    },
+    "data": null
+  },
+  "CAPITAL_ADEQUACY": {
+    "success": false,
+    "error": {
+      "errorCode": 404,
+      "message": "Data not found"
+    },
+    "data": null
+  }
+}

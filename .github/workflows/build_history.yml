@@ -1,0 +1,97 @@
+name: Build Historical Data & Static Files
+
+on:
+  schedule:
+    # 16:45 ICT = 09:45 UTC, Thứ 2–6 (sau khi thị trường đóng cửa)
+    - cron: "45 9 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      full_rebuild:
+        description: "Full rebuild từ 2016 (chậm, ~15 phút)"
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Restore cache parquet từ run trước để chạy incremental
+      - name: Restore history cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/processed/
+            data/raw/history/
+          key: yuanta-history-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            yuanta-history-${{ runner.os }}-
+
+      # Bước 1: Download/update lịch sử
+      - name: Download history (incremental hoặc full)
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          if [ "${{ inputs.full_rebuild }}" = "true" ]; then
+            echo "=== FULL REBUILD FROM 2016 ==="
+            python scripts/download_history.py --force --from-date 2016-01-01
+          else
+            echo "=== INCREMENTAL UPDATE ==="
+            python scripts/download_history.py --incremental
+          fi
+
+      # Bước 2: Build JSON.gz + meta files
+      - name: Build static files
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: python scripts/build_static_files.py --rebuild-json
+
+      # Bước 3: Save cache mới
+      - name: Save history cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: |
+            data/processed/
+            data/raw/history/
+          key: yuanta-history-${{ runner.os }}-${{ github.run_id }}
+
+      - name: Prepare gh-pages content
+        run: |
+          mkdir -p gh-pages-content
+          # Copy data files
+          cp -r data/static/. gh-pages-content/data/
+          # Copy dashboard
+          cp -r dashboard/. gh-pages-content/
+          # Thêm CNAME nếu có custom domain (bỏ comment nếu dùng)
+          # echo "your-domain.com" > gh-pages-content/CNAME
+
+          echo "gh-pages content:"
+          du -sh gh-pages-content/
+          find gh-pages-content -name "*.json.gz" | wc -l
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir:  ./gh-pages-content
+          # Force push — không tích lũy git history của data files
+          force_orphan: true
+          commit_message: |
+            data: update ${{ github.run_number }} — $(date -u +'%Y-%m-%d %H:%M UTC')
+          # Ẩn bot email trong git log
+          user_name:  "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"

@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "response": {
+    "title": {
+      "chart_name": "Tăng trưởng doanh thu [Quý]",
+      "chart_name_en": "Revenue growth [Quarter]",
+      "chart_name_zh": "營收成長率 [季度]",
+      "value_1": "Doanh thu thuần",
+      "value_1_en": "Net sales",
+      "value_1_zh": "淨收入",
+      "value_2": "Tăng trưởng  doanh thu thuần",
+      "value_2_en": "Net revenue",
+      "value_2_zh": "淨收入"
+    },
+    "column_name": {
+      "value_1": "Doanh thu thuần",
+      "value_1_en": "Net sales",
+      "value_1_zh": "淨收入",
+      "value_2": "Tăng trưởng  doanh thu thuần",
+      "value_2_en": "Net revenue",
+      "value_2_zh": "淨收入"
+    },
+    "unit": {
+      "value_1": "Tỷ đồng",
+      "value_1_en": "Billion",
+      "value_1_zh": "十億越盾",
+      "value_2": "%",
+      "value_2_en": "%",
+      "value_2_zh": "％"
+    },
+    "data": [
+      {
+        "time": "01/2026",
+        "value_1": 104352.02,
+        "value_2": 24.15
+      }
+    ]
+  },
+  "error": null
+}

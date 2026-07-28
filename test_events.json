@@ -1,0 +1,57 @@
+{
+  "data": [
+    {
+      "ID": 7169,
+      "StockCode": "DTG",
+      "Type": "stock_dividend",
+      "Content": "Trả cổ tức bằng cổ phiếu, tỷ lệ: 10:1",
+      "ExRightDate": "2026-07-24",
+      "RecordDate": "2026-07-27",
+      "EffectiveDate": "2100-01-01"
+    },
+    {
+      "ID": 7170,
+      "StockCode": "PSD",
+      "Type": "stock_dividend",
+      "Content": "Trả cổ tức bằng cổ phiếu, tỷ lệ: 100:30",
+      "ExRightDate": "2026-07-24",
+      "RecordDate": "2026-07-27",
+      "EffectiveDate": "2100-01-01"
+    },
+    {
+      "ID": 7173,
+      "StockCode": "NTW",
+      "Type": "cash_dividend",
+      "Content": "Cổ tức bằng tiền với tỷ lệ: 10%",
+      "ExRightDate": "2026-07-24",
+      "RecordDate": "2026-07-27",
+      "EffectiveDate": "2026-08-26"
+    },
+    {
+      "ID": 7174,
+      "StockCode": "PGV",
+      "Type": "cash_dividend",
+      "Content": "Cổ tức bằng tiền với tỷ lệ: 10%",
+      "ExRightDate": "2026-07-24",
+      "RecordDate": "2026-07-27",
+      "EffectiveDate": "2026-08-20"
+    },
+    {
+      "ID": 7171,
+      "StockCode": "DTG",
+      "Type": "cash_dividend",
+      "Content": "Cổ tức bằng tiền với tỷ lệ: 5%",
+      "ExRightDate": "2026-07-24",
+      "RecordDate": "2026-07-27",
+      "EffectiveDate": "2026-08-18"
+    }
+  ],
+  "error": null,
+  "success": true,
+  "totalRecords": 5560,
+  "page": 1,
+  "pageSize": 5,
+  "totalPage": 1112,
+  "hasNextPage": true,
+  "hasPreviousPage": false
+}

@@ -1,0 +1,51 @@
+name: Daily Update
+
+on:
+  schedule:
+    - cron: "10 9 * * 1-5" # 16:10 ICT T2-T6
+  workflow_dispatch:
+
+jobs:
+  daily_update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily update
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/daily_update.py
+
+      - name: Update market summary static file
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python -c "
+          from scripts.build_static_files import build_market_summary_json, build_universe_json
+          build_market_summary_json()
+          build_universe_json()
+          print('Static files updated')
+          "
+
+      - name: Quick deploy market summary to Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir:  ./data/static
+          destination_dir: data
+          keep_files:   true   # Không xóa history/ files cũ
+          force_orphan: false  # Chỉ update, không xóa toàn bộ
+          commit_message: "data: daily market snapshot $(date -u +'%Y-%m-%d')"

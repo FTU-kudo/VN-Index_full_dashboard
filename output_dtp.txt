@@ -1,0 +1,58 @@
+
+================ DTP ================
+[Luy ke 6T2026]
+DTT: 875.26 ty (+21.0% YoY)
+LNTT: 127.24 ty (-18.6% YoY)
+LNST: 113.64 ty (-18.2% YoY)
+
+[Q2/2026]
+DTT: 462.85 ty (+17.50% YoY)
+LNST cty me: 58.23 ty (-26.88% YoY)
+GPM: 48.23% (Q2/25: 53.71%)
+COGS/DTT: 51.77% (+ 5.5 diem svck)
+Chi phi BH/DTT: 31.86%
+Chi phi QLDN/DTT: 2.67%
+Tong CP hd/DTT: 34.53% (+ 4.3 diem svck)
+Thu nhap TC rong: -0.40 ty
+Chi phi lai vay/DTT: 0.00%
+
+[Balance Sheet Q2/2026]
+No vay: 0.00 ty
+No vay/VCSH: 0.00%
+Tien mat & DTNH: 112.28 ty (chiem 11.60% TSNH)
+He so TT hien hanh: 2.94 lan
+
+[CSTC]
+PE TTM: 9.07x
+PB: 2.01x
+ROE TTM: 0.00%
+ROA TTM: 0.00%
+
+================ DMC ================
+[Luy ke 6T2026]
+DTT: 1038.77 ty (+6.1% YoY)
+LNTT: 136.86 ty (+39.0% YoY)
+LNST: 109.46 ty (+39.0% YoY)
+
+[Q2/2026]
+DTT: 519.18 ty (+1.74% YoY)
+LNST cty me: 56.53 ty (+78.26% YoY)
+GPM: 20.74% (Q2/25: 16.68%)
+COGS/DTT: 79.26% (+ -4.1 diem svck)
+Chi phi BH/DTT: 5.10%
+Chi phi QLDN/DTT: 3.93%
+Tong CP hd/DTT: 9.02% (+ 0.3 diem svck)
+Thu nhap TC rong: 9.64 ty
+Chi phi lai vay/DTT: 0.00%
+
+[Balance Sheet Q2/2026]
+No vay: 0.00 ty
+No vay/VCSH: 0.00%
+Tien mat & DTNH: 585.14 ty (chiem 33.29% TSNH)
+He so TT hien hanh: 5.95 lan
+
+[CSTC]
+PE TTM: 8.96x
+PB: 1.22x
+ROE TTM: 0.00%
+ROA TTM: 0.00%
