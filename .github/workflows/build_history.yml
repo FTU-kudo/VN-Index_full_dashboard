@@ -57,7 +57,12 @@ jobs:
       - name: Build static files
         env:
           PYTHONPATH: ${{ github.workspace }}
-        run: python scripts/build_static_files.py --rebuild-json
+        run: |
+          python scripts/build_static_files.py --rebuild-json
+          echo "Static files built:"
+          echo "  History:    $(find data/static/history    -name '*.json.gz' | wc -l) files"
+          echo "  Financials: $(find data/static/financials -name '*.json'    | wc -l) files"
+          du -sh data/static/
 
       # Bước 3: Save cache mới
       - name: Save history cache
