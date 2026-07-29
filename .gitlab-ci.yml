@@ -1,0 +1,61 @@
+image: python:3.11
+
+# Định nghĩa các giai đoạn chạy
+stages:
+  - build
+  - deploy
+
+# Cấu hình Cache để giữ lại lịch sử và pip cache giữa các lần chạy
+cache:
+  key: yuanta-history-cache
+  paths:
+    - data/processed/
+    - data/raw/history/
+    - .cache/pip
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PYTHONPATH: "$CI_PROJECT_DIR"
+
+# Chạy build static files và tải dữ liệu
+build_data:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+    - |
+      if [ "$FULL_REBUILD" == "true" ]; then
+        echo "=== FULL REBUILD FROM 2016 ==="
+        python scripts/download_history.py --force --from-date 2016-01-01
+      else
+        echo "=== INCREMENTAL UPDATE ==="
+        python scripts/download_history.py --incremental || true
+      fi
+    - python scripts/build_static_files.py --rebuild-json
+    - python scripts/daily_update.py || true
+    - python -c "from scripts.build_static_files import build_market_summary_json, build_universe_json; build_market_summary_json(); build_universe_json();"
+  artifacts:
+    paths:
+      - data/static/
+      - dashboard/
+  rules:
+    # Chạy tự động theo lịch (Schedules) hoặc bấm chạy thủ công
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Deploy lên GitLab Pages
+pages:
+  stage: deploy
+  dependencies:
+    - build_data
+  script:
+    - mkdir -p public/data
+    - cp -r data/static/. public/data/
+    - cp -r dashboard/. public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
