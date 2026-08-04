@@ -1,8 +1,8 @@
 name: Daily Update
 
 on:
-  schedule:
-    - cron: "10 9 * * 1-5" # 16:10 ICT T2-T6
+  # schedule:
+  #   - cron: "10 9 * * 1-5" # 16:10 ICT T2-T6
   workflow_dispatch:
 
 jobs:
